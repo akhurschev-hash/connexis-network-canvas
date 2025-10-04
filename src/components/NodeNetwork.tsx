@@ -7,6 +7,7 @@ export const NodeNetwork = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const nodesRef = useRef<THREE.Mesh[]>([]);
+  const linesRef = useRef<THREE.Line[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -16,146 +17,234 @@ export const NodeNetwork = () => {
     scene.background = null;
     sceneRef.current = scene;
 
-    // Camera setup
+    // Camera setup with better perspective
     const camera = new THREE.PerspectiveCamera(
-      75,
+      60,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.set(0, 0, 12);
     cameraRef.current = camera;
 
-    // Renderer setup
+    // Renderer setup with better quality
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
-      alpha: true 
+      alpha: true,
+      powerPreference: 'high-performance'
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Create 15 nodes with varying positions
+    // Create 15 nodes with truly random spacing
     const nodes: THREE.Mesh[] = [];
+    const lines: THREE.Line[] = [];
+    
+    // Random positions with more variation
     const nodePositions = [
-      { x: -3, y: 8, offsetY: 0 },
-      { x: 3, y: 6, offsetY: 800 },
-      { x: -2.5, y: 4, offsetY: 1600 },
-      { x: 2.8, y: 2, offsetY: 2300 },
-      { x: -3.2, y: 0, offsetY: 3000 },
-      { x: 2.5, y: -2, offsetY: 3800 },
-      { x: -2.8, y: -4, offsetY: 4500 },
-      { x: 3.1, y: -6, offsetY: 5300 },
-      { x: -2.6, y: -8, offsetY: 6000 },
-      { x: 2.9, y: -10, offsetY: 6800 },
-      { x: -3.3, y: -12, offsetY: 7500 },
-      { x: 2.7, y: -14, offsetY: 8300 },
-      { x: -2.9, y: -16, offsetY: 9000 },
-      { x: 3.2, y: -18, offsetY: 9800 },
-      { x: -2.5, y: -20, offsetY: 10500 }
+      { x: -4.2, y: 4, z: -2, offsetY: 1200 },
+      { x: 3.8, y: 2.5, z: 1.5, offsetY: 1850 },
+      { x: -3.5, y: 0.8, z: -1, offsetY: 2600 },
+      { x: 4.5, y: -1.2, z: 2, offsetY: 3200 },
+      { x: -2.8, y: -3.5, z: -2.5, offsetY: 4100 },
+      { x: 3.2, y: -5.8, z: 1.8, offsetY: 4950 },
+      { x: -4.8, y: -7.5, z: -1.2, offsetY: 5650 },
+      { x: 2.5, y: -10, z: 2.2, offsetY: 6500 },
+      { x: -3.8, y: -12.8, z: -2, offsetY: 7200 },
+      { x: 4.2, y: -15.2, z: 1.5, offsetY: 8050 },
+      { x: -2.5, y: -17.5, z: -1.8, offsetY: 8750 },
+      { x: 3.5, y: -20.3, z: 2.5, offsetY: 9600 },
+      { x: -4.5, y: -23, z: -2.2, offsetY: 10300 },
+      { x: 2.8, y: -25.8, z: 1.2, offsetY: 11150 },
+      { x: -3.2, y: -28.5, z: -1.5, offsetY: 12000 }
     ];
 
     nodePositions.forEach((pos, index) => {
-      const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-      const material = new THREE.MeshPhongMaterial({
-        color: index === 0 ? 0x22c55e : 0x6b7280,
-        emissive: index === 0 ? 0x22c55e : 0x000000,
-        emissiveIntensity: index === 0 ? 0.5 : 0,
-        shininess: 100,
+      // Create sphere with better geometry
+      const geometry = new THREE.SphereGeometry(0.5, 64, 64);
+      
+      // Use MeshStandardMaterial for better lighting
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x1A1D23,
+        emissive: 0x3A9BDC,
+        emissiveIntensity: 0.1,
+        metalness: 0.8,
+        roughness: 0.2,
       });
+      
       const sphere = new THREE.Mesh(geometry, material);
-      sphere.position.set(pos.x, pos.y, 0);
+      sphere.position.set(pos.x, pos.y, pos.z);
+      sphere.castShadow = true;
+      sphere.receiveShadow = true;
       sphere.userData = { 
         index, 
         offsetY: pos.offsetY,
-        baseScale: index === 0 ? 1.5 : 0.5
+        baseScale: 0.3,
+        initialRotation: Math.random() * Math.PI * 2
       };
       scene.add(sphere);
       nodes.push(sphere);
 
-      // Add connecting lines between consecutive nodes
+      // Add glowing outer ring
+      const ringGeometry = new THREE.TorusGeometry(0.6, 0.05, 16, 100);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+        color: 0x3A9BDC,
+        emissive: 0x3A9BDC,
+        emissiveIntensity: 0.5,
+        transparent: true,
+        opacity: 0.6,
+        metalness: 0.9,
+        roughness: 0.1,
+      });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.position.copy(sphere.position);
+      ring.rotation.x = Math.PI / 2;
+      sphere.userData.ring = ring;
+      scene.add(ring);
+
+      // Add connecting tubes between consecutive nodes
       if (index > 0) {
-        const points = [
-          new THREE.Vector3(nodePositions[index - 1].x, nodePositions[index - 1].y, 0),
-          new THREE.Vector3(pos.x, pos.y, 0)
-        ];
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-        const lineMaterial = new THREE.LineBasicMaterial({ 
+        const prevPos = nodePositions[index - 1];
+        const curve = new THREE.CatmullRomCurve3([
+          new THREE.Vector3(prevPos.x, prevPos.y, prevPos.z),
+          new THREE.Vector3(
+            (prevPos.x + pos.x) / 2 + (Math.random() - 0.5) * 2,
+            (prevPos.y + pos.y) / 2,
+            (prevPos.z + pos.z) / 2 + (Math.random() - 0.5) * 2
+          ),
+          new THREE.Vector3(pos.x, pos.y, pos.z)
+        ]);
+        
+        const tubeGeometry = new THREE.TubeGeometry(curve, 64, 0.05, 8, false);
+        const tubeMaterial = new THREE.MeshStandardMaterial({
           color: 0x3A9BDC,
+          emissive: 0x3A9BDC,
+          emissiveIntensity: 0.3,
           transparent: true,
-          opacity: 0.3
+          opacity: 0.4,
+          metalness: 0.8,
+          roughness: 0.2,
         });
-        const line = new THREE.Line(lineGeometry, lineMaterial);
-        scene.add(line);
+        const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
+        scene.add(tube);
+        sphere.userData.tube = tube;
       }
     });
 
     nodesRef.current = nodes;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    // Enhanced lighting
+    const ambientLight = new THREE.AmbientLight(0x3A9BDC, 0.3);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 1);
-    pointLight.position.set(5, 5, 5);
-    scene.add(pointLight);
+    const mainLight = new THREE.DirectionalLight(0x7E57C2, 1.5);
+    mainLight.position.set(5, 10, 5);
+    mainLight.castShadow = true;
+    scene.add(mainLight);
 
-    // Animation loop
+    const accentLight1 = new THREE.PointLight(0x32E0C4, 2, 50);
+    accentLight1.position.set(-5, 0, 5);
+    scene.add(accentLight1);
+
+    const accentLight2 = new THREE.PointLight(0x7E57C2, 2, 50);
+    accentLight2.position.set(5, -10, 5);
+    scene.add(accentLight2);
+
+    // Animation loop with rotation
     const animate = () => {
       requestAnimationFrame(animate);
+      
+      // Rotate nodes and rings slightly
+      nodes.forEach((node) => {
+        node.rotation.y += 0.005;
+        node.rotation.x += 0.003;
+        if (node.userData.ring) {
+          node.userData.ring.rotation.z += 0.01;
+        }
+      });
+      
       renderer.render(scene, camera);
     };
     animate();
 
-    // Handle scroll
+    // Handle scroll with smooth transitions
     const handleScroll = () => {
       const scrollY = window.scrollY;
       
       nodes.forEach((node, index) => {
         const offsetY = node.userData.offsetY;
         const prevOffsetY = index > 0 ? nodes[index - 1].userData.offsetY : 0;
-        const nextOffsetY = index < nodes.length - 1 ? nodes[index + 1].userData.offsetY : offsetY + 700;
+        const nextOffsetY = index < nodes.length - 1 ? nodes[index + 1].userData.offsetY : offsetY + 900;
+        const transitionRange = 600;
 
-        // Calculate progress for this node
-        let progress = 0;
-        if (scrollY >= prevOffsetY && scrollY <= offsetY) {
-          progress = 1 - (offsetY - scrollY) / (offsetY - prevOffsetY);
-        } else if (scrollY >= offsetY && scrollY <= nextOffsetY) {
-          progress = 1 - (scrollY - offsetY) / (nextOffsetY - offsetY);
+        // Calculate distance from active point
+        const distanceFromActive = Math.abs(scrollY - offsetY);
+        const normalizedDistance = Math.min(distanceFromActive / transitionRange, 1);
+
+        // Scale: large when active, small when far
+        const targetScale = node.userData.baseScale * (2.5 - normalizedDistance * 2);
+        node.scale.setScalar(targetScale);
+        
+        if (node.userData.ring) {
+          node.userData.ring.scale.setScalar(targetScale);
         }
 
-        // Scale: grows as it becomes active, shrinks as it passes
-        const targetScale = scrollY >= offsetY ? 0.5 : (0.5 + progress * 1);
-        node.scale.setScalar(targetScale);
+        // Material updates
+        const material = node.material as THREE.MeshStandardMaterial;
+        const ringMaterial = node.userData.ring?.material as THREE.MeshStandardMaterial;
 
-        // Color: green when active, grey before, red after
-        const material = node.material as THREE.MeshPhongMaterial;
-        if (scrollY < offsetY - 200) {
-          // Not yet active - grey
-          material.color.setHex(0x6b7280);
-          material.emissive.setHex(0x000000);
-          material.emissiveIntensity = 0;
-        } else if (scrollY >= offsetY - 200 && scrollY <= offsetY + 200) {
-          // Becoming/currently active - green
-          const greenProgress = Math.max(0, Math.min(1, (scrollY - (offsetY - 200)) / 400));
-          material.color.setRGB(
-            0.13 * (1 - greenProgress) + 0.13 * greenProgress,
-            0.45 * (1 - greenProgress) + 0.77 * greenProgress,
-            0.5 * (1 - greenProgress) + 0.37 * greenProgress
-          );
-          material.emissive.setHex(0x22c55e);
-          material.emissiveIntensity = greenProgress * 0.5;
+        if (scrollY < offsetY - transitionRange) {
+          // Upcoming node - dim teal
+          material.color.setHex(0x1A1D23);
+          material.emissive.setHex(0x3A9BDC);
+          material.emissiveIntensity = 0.1;
+          if (ringMaterial) {
+            ringMaterial.emissive.setHex(0x3A9BDC);
+            ringMaterial.emissiveIntensity = 0.2;
+            ringMaterial.opacity = 0.3;
+          }
+        } else if (scrollY >= offsetY - transitionRange && scrollY <= offsetY + transitionRange) {
+          // Active node - bright luminous teal/green
+          const activeProgress = 1 - normalizedDistance;
+          material.color.setHex(0x0C0E12);
+          material.emissive.setHex(0x32E0C4);
+          material.emissiveIntensity = 0.8 * activeProgress + 0.2;
+          if (ringMaterial) {
+            ringMaterial.emissive.setHex(0x32E0C4);
+            ringMaterial.emissiveIntensity = 1.2 * activeProgress;
+            ringMaterial.opacity = 0.8 * activeProgress + 0.2;
+          }
+          
+          // Update tube color if exists
+          if (node.userData.tube) {
+            const tubeMat = node.userData.tube.material as THREE.MeshStandardMaterial;
+            tubeMat.emissive.setHex(0x32E0C4);
+            tubeMat.emissiveIntensity = 0.6 * activeProgress;
+            tubeMat.opacity = 0.7 * activeProgress + 0.3;
+          }
         } else {
-          // Past active - red
-          const redProgress = Math.min(1, (scrollY - offsetY - 200) / 400);
-          material.color.setRGB(
-            0.13 + redProgress * 0.74,
-            0.77 - redProgress * 0.44,
-            0.37 - redProgress * 0.23
-          );
-          material.emissive.setHex(0xef4444);
-          material.emissiveIntensity = redProgress * 0.3;
+          // Past node - red/neo-purple fade
+          const fadeProgress = Math.min((scrollY - offsetY - transitionRange) / transitionRange, 1);
+          material.color.setHex(0x1A1D23);
+          material.emissive.setHex(0x7E57C2);
+          material.emissiveIntensity = 0.4 * (1 - fadeProgress * 0.7);
+          if (ringMaterial) {
+            ringMaterial.emissive.setHex(0x7E57C2);
+            ringMaterial.emissiveIntensity = 0.5 * (1 - fadeProgress * 0.7);
+            ringMaterial.opacity = 0.4 * (1 - fadeProgress * 0.5);
+          }
+          
+          // Fade tube
+          if (node.userData.tube) {
+            const tubeMat = node.userData.tube.material as THREE.MeshStandardMaterial;
+            tubeMat.emissive.setHex(0x7E57C2);
+            tubeMat.emissiveIntensity = 0.3 * (1 - fadeProgress * 0.7);
+            tubeMat.opacity = 0.3 * (1 - fadeProgress * 0.7);
+          }
         }
       });
     };
@@ -183,7 +272,7 @@ export const NodeNetwork = () => {
     <div 
       ref={containerRef} 
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ height: '11000px' }}
+      style={{ height: '13000px' }}
     />
   );
 };
