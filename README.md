@@ -1,73 +1,83 @@
-# Welcome to your Lovable project
+# Connexis — 3D Relationship-First CRM (Landing + Background Animation)
 
-## Project info
+**Elevator Pitch**  
+Connexis transforms your network from spreadsheets and siloed tools into a living, interactive 3D graph of relationships. Whether you're a founder or investor, Connexis helps you **visualize**, **grow**, and **nurture** connections—with AI-powered insights and seamless collaboration. The landing page is enhanced with an immersive background: an interactive globe that transitions into a field of nodes, staying alive behind your content and reflecting your network’s dynamism.
 
-**URL**: https://lovable.dev/projects/53feb016-aaa4-4e76-b451-e1502c8aa6b8
+**Stack**  
+- **Frontend / UI**: Next.js (App Router)  
+- **3D & Animation**: Three.js + GSAP (ScrollTrigger)  
+- **Styling & Motion**: TailwindCSS, Framer Motion (for UI overlays)  
+- **Deployment / Hosting**: Vercel  
+- **CI/CD**: GitHub Actions → automatic deploys to Vercel  
+- **Analytics / Insights**: GA4, Amplitude (optional)  
 
-## How can I edit this code?
+**Live Demo / Deploy**  
+View the landing + interactive background in action:  
+[https://connexis-network-canvas.vercel.app/](https://connexis-network-canvas.vercel.app/)  
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/53feb016-aaa4-4e76-b451-e1502c8aa6b8) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## 📁 Project Structure (example)  
+```
+/
+├── public/
+│   └── favicon.ico
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── styles/
+│   └── utils/
+└── package.json
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🛠️ Usage & Local Dev
 
-**Use GitHub Codespaces**
+1. Clone the repo  
+   ```bash
+   git clone https://github.com/your-org/connexis.git
+   cd connexis
+   ```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. Install dependencies  
+   ```bash
+   npm install
+   ```
 
-## What technologies are used for this project?
+3. Run locally  
+   ```bash
+   npm run dev
+   ```
 
-This project is built with:
+4. Build & preview  
+   ```bash
+   npm run build
+   npm run start
+   ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 🚀 Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/53feb016-aaa4-4e76-b451-e1502c8aa6b8) and click on Share -> Publish.
+This project is connected to Vercel via GitHub. Merging into `main` (or your production branch) triggers an auto-deploy to:  
+**https://connexis-network-canvas.vercel.app/**
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🧩 Notes & Next Steps
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- The background animation is built into the landing page and persists behind all content.  
+- You can fine-tune scroll trigger breakpoints (`30% / 50%`) to match the content layout.  
+- Consider adding performance fallback (e.g. lower-detail geometry, disables animation) for low-power devices.  
+- Extend this scaffold to the full Connexis product (dashboard, graph interactions, AI suggestions).  
+- Add SEO metadata, error pages, analytics tracking, and accessibility enhancements.  
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+
+## 📝 Credits & Resources  
+
+- Three.js for 3D rendering  
+- GSAP ScrollTrigger for scroll-based animation  
+- TailwindCSS & Framer Motion for UI  
+- Vercel for deployment  
