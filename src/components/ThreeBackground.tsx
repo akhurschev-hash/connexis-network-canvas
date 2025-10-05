@@ -136,14 +136,17 @@ export const ThreeBackground = () => {
       },
     });
 
-    gsap.to(globe.material, {
-      opacity: 0,
-      scrollTrigger: {
-        start: '30%',
-        end: '40%',
-        scrub: true,
-      },
-    });
+    gsap.fromTo(globe.material,
+      { opacity: 0.6 },
+      {
+        opacity: 0,
+        scrollTrigger: {
+          start: '30%',
+          end: '40%',
+          scrub: true,
+        },
+      }
+    );
 
     gsap.to(meshLines.material, {
       opacity: 0,
@@ -154,35 +157,43 @@ export const ThreeBackground = () => {
         onEnter: () => {
           nodesGroup.visible = true;
         },
+        onLeaveBack: () => {
+          nodesGroup.visible = false;
+        },
       },
     });
 
     // Explosion animation: nodes expand from center to final positions
     nodes.forEach((node, i) => {
       const finalPos = node.userData.finalPosition;
-      gsap.to(node.position, {
-        x: finalPos.x,
-        y: finalPos.y,
-        z: finalPos.z,
-        scrollTrigger: {
-          start: '30%',
-          end: '50%',
-          scrub: true,
-        },
-        ease: 'power2.out',
-        delay: i * 0.02,
-      });
+      gsap.fromTo(node.position, 
+        { x: 0, y: 0, z: 0 },
+        {
+          x: finalPos.x,
+          y: finalPos.y,
+          z: finalPos.z,
+          scrollTrigger: {
+            start: '30%',
+            end: '50%',
+            scrub: true,
+          },
+          ease: 'power2.out',
+        }
+      );
       
-      gsap.to(node.scale, {
-        x: 1,
-        y: 1,
-        z: 1,
-        scrollTrigger: {
-          start: '30%',
-          end: '50%',
-          scrub: true,
-        },
-      });
+      gsap.fromTo(node.scale,
+        { x: 0.01, y: 0.01, z: 0.01 },
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          scrollTrigger: {
+            start: '30%',
+            end: '50%',
+            scrub: true,
+          },
+        }
+      );
     });
 
     const state = { index: 0 };
