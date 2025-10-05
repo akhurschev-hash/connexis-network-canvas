@@ -7,23 +7,19 @@ import { FAQ } from "@/components/FAQ";
 import { Pricing } from "@/components/Pricing";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
-import { NodeNetwork } from "@/components/NodeNetwork";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <NodeNetwork />
-      <div className="relative z-10">
-        <Hero />
-        <Problem />
-        <Value />
-        <HowItWorks />
-        <Testimonial />
-        <FAQ />
-        <Pricing />
-        <FinalCTA />
-        <Footer />
-      </div>
+      <Hero />
+      <Problem />
+      <Value />
+      <HowItWorks />
+      <Testimonial />
+      <FAQ />
+      <Pricing />
+      <FinalCTA />
+      <Footer />
     </div>
   );
 };
