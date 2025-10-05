@@ -57,9 +57,8 @@ export const Pricing = () => {
 
   return (
     <section className="py-24 px-4 relative overflow-hidden">
-      {/* Background accents */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-electric-blue/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neo-purple/10 rounded-full blur-[120px]" />
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16 animate-fade-in">

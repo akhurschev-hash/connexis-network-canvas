@@ -30,8 +30,8 @@ export const Value = () => {
 
   return (
     <section className="py-24 px-4 relative overflow-hidden">
-      {/* Background accent */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-luminous-teal/10 rounded-full blur-[120px]" />
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16 animate-fade-in">

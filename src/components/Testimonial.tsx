@@ -3,8 +3,8 @@ import { Quote } from "lucide-react";
 export const Testimonial = () => {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-neo-purple/20 rounded-full blur-[120px]" />
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
       
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="card-glow rounded-3xl p-12 border border-primary/20 animate-scale-in">

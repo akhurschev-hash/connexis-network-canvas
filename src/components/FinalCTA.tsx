@@ -4,10 +4,8 @@ import { ArrowRight } from "lucide-react";
 export const FinalCTA = () => {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
-      {/* Dramatic background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-graphite-gray to-background">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_hsl(172_73%_54%_/_0.15),transparent_70%)]" />
-      </div>
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div className="card-glow rounded-3xl p-12 md:p-16 border border-primary/20 animate-scale-in">

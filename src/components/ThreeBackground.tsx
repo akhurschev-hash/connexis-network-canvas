@@ -52,7 +52,7 @@ export const ThreeBackground = () => {
     const globeWire = new THREE.WireframeGeometry(globeGeometry);
     const globe = new THREE.LineSegments(
       globeWire,
-      new THREE.LineBasicMaterial({ color: 0x32e0c4, transparent: true, opacity: 0.6 })
+      new THREE.LineBasicMaterial({ color: 0x1a7a6a, transparent: true, opacity: 0.35 })
     );
     globeGroup.add(globe);
 
@@ -72,8 +72,8 @@ export const ThreeBackground = () => {
       );
     }
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x3a9bdc,
-      opacity: 0.15,
+      color: 0x2a6b9c,
+      opacity: 0.1,
       transparent: true,
     });
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -95,11 +95,16 @@ export const ThreeBackground = () => {
 
     for (let i = 0; i < N; i++) {
       const mesh = new THREE.Mesh(nodeGeo, nodeMat.clone());
-      mesh.position.set(
-        THREE.MathUtils.randFloatSpread(4),
-        yCursor,
-        THREE.MathUtils.randFloatSpread(1)
-      );
+      // Store final positions
+      const finalX = THREE.MathUtils.randFloatSpread(8);
+      const finalY = yCursor;
+      const finalZ = THREE.MathUtils.randFloatSpread(2);
+      
+      // Start all nodes at center (globe position)
+      mesh.position.set(0, 0, 0);
+      mesh.userData.finalPosition = { x: finalX, y: finalY, z: finalZ };
+      mesh.scale.setScalar(0.01);
+      
       yCursor -= THREE.MathUtils.randFloat(0.5, 0.9);
       nodesGroup.add(mesh);
       nodes.push(mesh);
@@ -152,10 +157,23 @@ export const ThreeBackground = () => {
       },
     });
 
-    gsap.fromTo(
-      nodesGroup.scale,
-      { x: 0.1, y: 0.1, z: 0.1 },
-      {
+    // Explosion animation: nodes expand from center to final positions
+    nodes.forEach((node, i) => {
+      const finalPos = node.userData.finalPosition;
+      gsap.to(node.position, {
+        x: finalPos.x,
+        y: finalPos.y,
+        z: finalPos.z,
+        scrollTrigger: {
+          start: '30%',
+          end: '50%',
+          scrub: true,
+        },
+        ease: 'power2.out',
+        delay: i * 0.02,
+      });
+      
+      gsap.to(node.scale, {
         x: 1,
         y: 1,
         z: 1,
@@ -164,8 +182,8 @@ export const ThreeBackground = () => {
           end: '50%',
           scrub: true,
         },
-      }
-    );
+      });
+    });
 
     const state = { index: 0 };
     gsap.to(state, {

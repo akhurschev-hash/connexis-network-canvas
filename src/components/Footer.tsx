@@ -11,8 +11,10 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-primary/10 bg-graphite-gray/50">
-      <div className="max-w-7xl mx-auto px-4 py-16">
+    <footer className="relative border-t border-primary/10">
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-background/50 backdrop-blur-sm" />
+      <div className="max-w-7xl mx-auto px-4 py-16 relative z-10">
         {/* Newsletter */}
         <div className="mb-16 text-center max-w-xl mx-auto">
           <h3 className="font-heading text-2xl font-bold mb-3">

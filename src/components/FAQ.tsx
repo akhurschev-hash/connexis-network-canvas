@@ -30,8 +30,10 @@ export const FAQ = () => {
   ];
 
   return (
-    <section className="py-24 px-4">
-      <div className="max-w-3xl mx-auto">
+    <section className="py-24 px-4 relative">
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
+      <div className="max-w-3xl mx-auto relative z-10">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6">
             Common <span className="text-gradient">Questions</span>

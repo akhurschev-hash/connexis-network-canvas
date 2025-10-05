@@ -4,11 +4,9 @@ import { ArrowRight, Sparkles } from "lucide-react";
 export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-deep-space via-graphite-gray to-deep-space">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_hsl(203_63%_55%_/_0.1),transparent_50%)]" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-electric-blue/20 rounded-full blur-[100px] animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neo-purple/20 rounded-full blur-[100px] animate-pulse-slow animation-delay-1000" />
+      {/* Semi-transparent overlay for readability */}
+      <div className="absolute inset-0 bg-background/30 backdrop-blur-[2px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_hsl(203_63%_55%_/_0.05),transparent_50%)]" />
       </div>
 
       {/* Content */}
