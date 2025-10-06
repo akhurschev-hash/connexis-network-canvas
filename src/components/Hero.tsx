@@ -26,20 +26,14 @@ export const Hero = () => {
           Connexis transforms scattered spreadsheets into a living graph of your startup's relationships—helping you close faster and stay top of mind.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+        <div className="flex justify-center items-center pt-4">
           <Button 
             size="lg" 
-            className="bg-gradient-primary text-white font-semibold px-8 py-6 text-lg rounded-full shadow-button hover:scale-105 transition-transform"
+            className="bg-gradient-primary text-white font-semibold px-10 py-7 text-lg rounded-full shadow-button hover:scale-105 transition-transform"
+            onClick={() => window.open('https://forms.gle/aAPipwF6qBMESBSu7', '_blank')}
           >
-            Start Free Trial
+            Join the Waitlist
             <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-primary/30 text-foreground hover:bg-primary/10 px-8 py-6 text-lg rounded-full"
-          >
-            Watch Demo
           </Button>
         </div>
 

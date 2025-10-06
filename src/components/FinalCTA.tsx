@@ -20,20 +20,14 @@ export const FinalCTA = () => {
             Start your free 14-day trial today—no credit card required.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button 
               size="lg" 
               className="bg-gradient-primary text-white font-semibold px-10 py-7 text-lg rounded-full shadow-button hover:scale-105 transition-transform"
+              onClick={() => window.open('https://forms.gle/aAPipwF6qBMESBSu7', '_blank')}
             >
-              Start Free Trial
+              Join the Waitlist
               <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-primary/30 text-foreground hover:bg-primary/10 px-10 py-7 text-lg rounded-full"
-            >
-              Schedule Demo
             </Button>
           </div>
 
