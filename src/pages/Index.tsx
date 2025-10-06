@@ -15,7 +15,7 @@ const Index = () => {
     <div className="min-h-screen">
       <ThreeBackground />
       <Navbar />
-      <div className="relative z-10">
+      <div className="relative z-10" style={{ paddingTop: 'var(--nav-h)' }}>
         <Hero />
         <Problem />
         <Value />
