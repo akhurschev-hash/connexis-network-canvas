@@ -10,7 +10,7 @@ export const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 animate-fade-in -mt-24">
+      <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 animate-fade-in">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 backdrop-blur-sm border border-primary/20 mb-4">
           <Sparkles className="w-4 h-4 text-luminous-teal" />
           <span className="text-sm text-muted-foreground">Trusted by 150+ founders across MENA & SEA</span>
