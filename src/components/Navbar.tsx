@@ -76,9 +76,9 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 px-4">
+    <header className="fixed top-2 md:top-4 left-0 right-0 z-50 px-3 md:px-4">
       <nav
-        className={`max-w-7xl mx-auto rounded-2xl border transition-all duration-300 ${
+        className={`max-w-7xl mx-auto rounded-xl md:rounded-2xl border transition-all duration-300 ${
           isScrolled
             ? "bg-[rgba(12,14,18,0.85)] shadow-2xl border-white/10"
             : "bg-[rgba(12,14,18,0.6)] shadow-lg border-white/[0.08]"
@@ -86,11 +86,11 @@ export const Navbar = () => {
         style={{ backdropFilter: "blur(10px)" }}
         aria-label="Main navigation"
       >
-        <div className="flex items-center justify-between h-16 px-6">
+        <div className="flex items-center justify-between h-14 md:h-16 px-4 md:px-6">
           {/* Logo */}
           <button
             onClick={scrollToTop}
-            className="text-2xl font-bold tracking-tight text-white hover:text-luminous-teal transition-colors focus:outline-none focus:ring-2 focus:ring-luminous-teal focus:ring-offset-2 focus:ring-offset-background rounded"
+            className="text-xl md:text-2xl font-bold tracking-tight text-white hover:text-luminous-teal transition-colors focus:outline-none focus:ring-2 focus:ring-luminous-teal focus:ring-offset-2 focus:ring-offset-background rounded"
             aria-label="Connexis home"
           >
             connexis
@@ -201,7 +201,7 @@ export const Navbar = () => {
             {/* CTA Button */}
             <Button
               onClick={() => window.open('https://forms.gle/aAPipwF6qBMESBSu7', '_blank')}
-              className="ml-4 bg-gradient-to-r from-luminous-teal to-[#3A9BDC] text-white font-semibold px-6 py-2 rounded-full hover:brightness-110 transition-all shadow-[0_0_20px_rgba(50,224,196,0.3)] hover:shadow-[0_0_30px_rgba(50,224,196,0.5)] focus:ring-2 focus:ring-luminous-teal focus:ring-offset-2 focus:ring-offset-background"
+              className="ml-4 bg-gradient-to-r from-luminous-teal to-[#3A9BDC] text-white font-semibold px-4 lg:px-6 py-2 text-sm rounded-full hover:brightness-110 transition-all shadow-[0_0_20px_rgba(50,224,196,0.3)] hover:shadow-[0_0_30px_rgba(50,224,196,0.5)] focus:ring-2 focus:ring-luminous-teal focus:ring-offset-2 focus:ring-offset-background"
             >
               Join the Waitlist
             </Button>

@@ -39,8 +39,8 @@ All colors MUST be HSL.
 
     --radius: 1rem;
 
-    /* Navbar spacing */
-    --nav-h: 96px; /* navbar height (64px) + top offset (16px) + buffer (16px) */
+    /* Navbar spacing - responsive */
+    --nav-h: 88px; /* mobile: navbar height (56px) + top offset (16px) + buffer (16px) */
 
     /* Brand Colors */
     --electric-blue: 203 63% 55%;
@@ -62,6 +62,13 @@ All colors MUST be HSL.
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Responsive navbar spacing for larger screens */
+  @media (min-width: 1024px) {
+    :root {
+      --nav-h: 104px; /* desktop: navbar height (64px) + top offset (16px) + buffer (24px) */
+    }
   }
 }
 
