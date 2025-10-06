@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Problem } from "@/components/Problem";
 import { Value } from "@/components/Value";
@@ -13,6 +14,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <ThreeBackground />
+      <Navbar />
       <div className="relative z-10">
         <Hero />
         <Problem />
